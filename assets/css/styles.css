@@ -97,13 +97,23 @@ body { background-color: #212121; }
 		Periods
 ---------------------*/
 
-#periodsRow { margin-top: 2.5rem; }
+#newPeriodClass {
+	background-color: transparent;
+	padding: 1rem 1.5rem;
+	width: 100%;
+	border: none;
+	border-bottom: 1.5px solid #ccc;
+	margin: 1.5rem auto;
+	outline-color: #ccc;
+}
 
-.subjectPeriod { margin: 1.5rem .5rem; }
+#newPeriodClass option {
+	background-color: #363636;
+	padding: 1rem;
 
-.subjectPeriod .classTitle { min-height: 5rem; }
+}
 
-.newPeriodButton {
+#newPeriodButton {
 	padding: 1.2rem;
 	background-color: #6C6C6C;
 	border-radius: 15px;
@@ -113,8 +123,8 @@ body { background-color: #212121; }
 	font-weight: 700;
 }
 
-.newPeriodButton:hover { transform: translateY(-10px); }
-.newPeriodButton:hover, .newPeriodButton:active { background-color: #525252; }
+#newPeriodButton:hover { transform: translateY(-10px); }
+#newPeriodButton:hover, .newPeriodButton:active { background-color: #525252; }
 
 /*---------------------
 		Modal
