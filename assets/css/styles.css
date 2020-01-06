@@ -16,6 +16,7 @@
 
 .text-center { text-align: center; }
 .justify-content-evenly { justify-content: space-evenly; }
+.row { margin: 1.5rem 0; }
 
 body { background-color: #212121; }
 
@@ -26,6 +27,20 @@ body { background-color: #212121; }
 	-ms-filter: blur(5px);
 	filter: blur(5px);
 }
+
+.ownButton {
+	padding: 1.2rem;
+	background-color: #6C6C6C;
+	border-radius: 15px;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+	border: 1.5px solid #fff;
+	font-weight: 700;
+}
+
+.ownButton:hover { transform: translateY(-10px); }
+.ownButton:hover, .ownButton:active { background-color: #525252; }
+.ownButton:active, .ownButton:focus { outline: none; }
 
 @media(max-width: 574px){
 	.sm-text-center { text-align: center; }
@@ -107,24 +122,13 @@ body { background-color: #212121; }
 	outline-color: #ccc;
 }
 
-#newPeriodClass option {
-	background-color: #363636;
-	padding: 1rem;
+#newPeriodClass option { background-color: #363636; }
 
-}
+/*---------------------
+   Restarting Buttons
+---------------------*/
 
-#newPeriodButton {
-	padding: 1.2rem;
-	background-color: #6C6C6C;
-	border-radius: 15px;
-	cursor: pointer;
-	transition: all .3s ease-in-out;
-	border: 1.5px solid #fff;
-	font-weight: 700;
-}
-
-#newPeriodButton:hover { transform: translateY(-10px); }
-#newPeriodButton:hover, .newPeriodButton:active { background-color: #525252; }
+#restartingButtons h2 { margin-bottom: 2rem; }
 
 /*---------------------
 		Modal
@@ -170,7 +174,18 @@ body { background-color: #212121; }
 	transform: translateY(-50%);
 }
 
-.content input { display: none; }
+.content form,
+.content #addAbsenceForm input { display: none; }
+
+.content input {
+	border-radius: 8px;
+	border: none;
+	border: 1px solid #111;
+	padding: 5px 8px;
+	color: #000;
+}
+
+.content input:active, .content input:focus { outline: none; }
 
 .btn-close {
 	width: 32px;
@@ -201,7 +216,8 @@ body { background-color: #212121; }
 	transform: rotate(-45deg);
 }
 
-.modal .content p { 
+.modal .content p,
+.modal .content label { 
 	color: #000;
 	font-size: 24px;
 	margin: 2rem 0;
@@ -209,7 +225,7 @@ body { background-color: #212121; }
 
 .modal .content p strong { color: #000; }
 
-.modal #addAbsence {
+.modal button {
 	padding: 1rem 3rem;
 	background-color: #313131;
 	border: none;
@@ -219,7 +235,7 @@ body { background-color: #212121; }
 	transition: all .3s ease-in-out;
 }
 
-.modal #addAbsence:hover { transform: translateY(-10px); }
+.modal button:hover { transform: translateY(-10px); }
 
 @media(max-width: 574px){
 	.modal { height: 85%; }
