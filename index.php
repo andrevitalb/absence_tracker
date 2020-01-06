@@ -1,3 +1,23 @@
+<?php 
+	include ('connections.php');
+
+	$queryGetSemester = "Select semestre_actual from semestre";
+	$resultGetSemester = mysqli_query($connect, $queryGetSemester);
+	$rGetSemester = mysqli_fetch_array($resultGetSemester);
+	$semester = $rGetSemester[0];
+	
+    mysqli_set_charset ($connect, "utf8");
+    date_default_timezone_set('America/Mexico_City');
+
+	function getClasses(){
+		global $connect, $resultGetClasses, $semester;
+
+		$queryGetClasses = "Select materia_ID, materia_nombre, materia_totalFaltas from materias where materia_activa = $semester";
+		$resultGetClasses = mysqli_query($connect, $queryGetClasses);
+	}
+
+	getClasses();
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -19,56 +39,13 @@
 			</div>
 			<div class="row justify-content-evenly" id = "absencesRow">
 				<div class="col-12 sm-text-center">
-					<h2>4° Semestre</h2>
+					<h2><?php echo $semester; ?>° Semestre</h2>
 				</div>
-				<div class="col-5 col-md-3 classContainer text-center" id = "0" title = "Lenguajes de Computación IV">
-					<div class="d-table">
-						<div class="classContent">
-							<h4 class = "classTitle">Lenguajes de Computación IV</h4>
-							<p class="absenceCounter"><span class = "absences">16</span>faltas</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-5 col-md-3 classContainer text-center" id = "1" title = "Programación Científica">
-					<div class="d-table">
-						<div class="classContent">
-							<h4 class = "classTitle">Programación Científica</h4>
-							<p class="absenceCounter"><span class = "absences">16</span>faltas</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-5 col-md-3 classContainer text-center" id = "2" title = "Organización Computacional">
-					<div class="d-table"
->						<div class="classContent">
-							<h4 class = "classTitle">Organización Computacional</h4>
-							<p class="absenceCounter"><span class = "absences">16</span>faltas</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-5 col-md-3 classContainer text-center" id = "3" title = "Análisis y Diseño">
-					<div class="d-table">
-						<div class="classContent">
-							<h4 class = "classTitle">Análisis y Diseño</h4>
-							<p class="absenceCounter"><span class = "absences">16</span>faltas</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-5 col-md-3 classContainer text-center" id = "4" title = "Técnicas Inteligentes para Procesos de Desarrollo">
-					<div class="d-table">
-						<div class="classContent">
-							<h4 class = "classTitle">Técnicas Inteligentes para Procesos de Desarrollo</h4>
-							<p class="absenceCounter"><span class = "absences">16</span>faltas</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-5 col-md-3 classContainer text-center" id = "5" title = "Mecánica">
-					<div class="d-table">
-						<div class="classContent">
-							<h4 class = "classTitle">Mecánica</h4>
-							<p class="absenceCounter"><span class = "absences">16</span>faltas</p>
-						</div>
-					</div>
-				</div>
+				<?php 
+					if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
+						echo "<div class='col-5 col-md-3 classContainer text-center' id = '$rowClasses[0]' title = '$rowClasses[1]'><div class='d-table'><div class='classContent'><h4 class = 'classTitle'>$rowClasses[1]</h4><p class='absenceCounter'><span class = 'absences'>$rowClasses[2]</span>faltas</p></div></div></div>";
+					}
+				?>
 			</div>
 
 			<div class="row justify-content-evenly" id="periodsRow">
@@ -76,34 +53,31 @@
 					<h2>Parciales</h2>
 				</div>
 				<div class="col-12 col-md-6 text-center">
-					<select name="newPeriodClass" id="newPeriodClass">
-						<option value="1">Lenguajes de Computación IV</option>
-						<option value="2">Programación Científica</option>
-						<option value="3">Organización Computacional</option>
-						<option value="4"></option>
-						<option value="5"></option>
-						<option value="6"></option>
-					</select>
+					<form action="" method = "post">
+						<select name="newPeriodClass" id="newPeriodClass">
+							<option selected disabled>  - Selecciona una opción</option>
+							<?php 
+								getClasses();
+
+								if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
+									echo "<option value='$rowClasses[0]'>$rowClasses[1]</option>";
+								}
+							?>
+						</select>
+						<button type = "button" name = "newPeriodButton" id = "newPeriodButton" class = "ownButton">Iniciar nuevo parcial</button>
+					</form>
 				</div>
-				<div class="col-5 col-md-3 text-center subjectPeriod">
-					<h4 class = "classTitle">Programación Científica</h4>
-					<p class="newPeriodButton">Iniciar nuevo parcial</p>
+			</div>
+
+			<div class="row justify-content-center" id="restartingButtons">
+				<div class="col-12 sm-text-center">
+					<h2>Agregar</h2>
 				</div>
-				<div class="col-5 col-md-3 text-center subjectPeriod">
-					<h4 class = "classTitle">Organización Computacional</h4>
-					<p class="newPeriodButton">Iniciar nuevo parcial</p>
+				<div class="col-12 col-md-4 text-center">
+					<button type="button" name="newSemester" id="newSemester" class = "ownButton">Nuevo Semestre</button>
 				</div>
-				<div class="col-5 col-md-3 text-center subjectPeriod">
-					<h4 class = "classTitle">Análisis y Diseño</h4>
-					<p class="newPeriodButton">Iniciar nuevo parcial</p>
-				</div>
-				<div class="col-5 col-md-3 text-center subjectPeriod">
-					<h4 class = "classTitle">Técnicas Inteligentes para Procesos de Desarrollo</h4>
-					<p class="newPeriodButton">Iniciar nuevo parcial</p>
-				</div>
-				<div class="col-5 col-md-3 text-center subjectPeriod">
-					<h4 class = "classTitle">Mecánica</h4>
-					<p class="newPeriodButton">Iniciar nuevo parcial</p>
+				<div class="col-12 col-md-4 text-center">
+					<button type="button" name="newClass" id="newClass" class = "ownButton">Nueva Clase</button>
 				</div>
 			</div>
 		</div>
@@ -114,20 +88,24 @@
 					<div class="modal col-11 col-md-5">
 						<a class="btn-close" href="javascript:;"></a>
 						<div class="content text-center">
-							<form action="addAbsence.php">
+							<form action="addAbsence.php" id = "addAbsenceForm">
 								<input type="text" id = "currSubjectInput" name = "currSubjectInput">
 								<input type="text" id = "currDateInput" name = "currDateInput">
 								<p id = "currSubject">Materia: </p>
 								<p id = "currDate">Fecha: </p>
 								<button type="submit" id = "addAbsence">Agregar</button>
 							</form>
+							<form action="addClass.php" id = "addClassForm">
+								<label for="nombreMateria">Nombre: </label>
+								<input type="text" id = "nombreMateria" name = "nombreMateria">
+								<button type="submit" id = "addClass">Agregar</button>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		
+
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<script>
 			var today = new Date();
@@ -142,6 +120,8 @@
 				$('.btn-close').click(function() {
 					$('.modal-wrapper').toggleClass('open');
 					$('.page-wrapper').toggleClass('blur');
+					$('#addAbsenceForm').css('display', 'none');
+					$('#addClassForm').css('display', 'none');
 					return false;
 				});
 
@@ -150,7 +130,14 @@
 					$('#currSubjectInput').val($(this).attr('id'));
 					$('.modal-wrapper').toggleClass('open');
 					$('.page-wrapper').toggleClass('blur');
+					$('#addAbsenceForm').css('display', 'block');
 					return false;
+				});
+
+				$('#newClass').click(function(){
+					$('.modal-wrapper').toggleClass('open');
+					$('.page-wrapper').toggleClass('blur');
+					$('#addClassForm').css('display', 'block');
 				});
 			});
 		</script>

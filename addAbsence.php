@@ -1,11 +1,7 @@
 <?php
-	$hostname = "sql107.epizy.com";
-    $username = "epiz_23945487";
-    $password = "xrtaXLx81bkyTR";
-    $databaseName = "epiz_23945487_faltas_uaa";
-
-    $connect = mysqli_connect($hostname, $username, $password, $databaseName);
-    mysqli_set_charset ($connect, "utf8");
+	include ('connections.php');
+	
+	mysqli_set_charset ($connect, "utf8");
     date_default_timezone_set('America/Mexico_City');
 
     $subject = $_REQUEST['currSubjectInput'];
