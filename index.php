@@ -16,6 +16,13 @@
 		$resultGetClasses = mysqli_query($connect, $queryGetClasses);
 	}
 
+	function newSemester(){
+		global $connect, $semester;
+
+		$queryNewSemester = "Update semestre set semestre_actual = semestre_actual + 1 where semestre_actual = $semester";
+		mysqli_query($connect, $queryNewSemester);
+	}
+
 	getClasses();
 ?>
 <!DOCTYPE html>
@@ -53,9 +60,9 @@
 					<h2>Parciales</h2>
 				</div>
 				<div class="col-12 col-md-6 text-center">
-					<form action="" method = "post">
+					<form action="newPeriod.php" method = "post">
 						<select name="newPeriodClass" id="newPeriodClass">
-							<option selected disabled>  - Selecciona una opción</option>
+							<option selected disabled required>  - Selecciona una opción</option>
 							<?php 
 								getClasses();
 
@@ -63,8 +70,9 @@
 									echo "<option value='$rowClasses[0]'>$rowClasses[1]</option>";
 								}
 							?>
+							<option value='69'>Todas</option>
 						</select>
-						<button type = "button" name = "newPeriodButton" id = "newPeriodButton" class = "ownButton">Iniciar nuevo parcial</button>
+						<button type = "submit" name = "newPeriodButton" id = "newPeriodButton" class = "ownButton">Iniciar nuevo parcial</button>
 					</form>
 				</div>
 			</div>
@@ -74,7 +82,10 @@
 					<h2>Agregar</h2>
 				</div>
 				<div class="col-12 col-md-4 text-center">
-					<button type="button" name="newSemester" id="newSemester" class = "ownButton">Nuevo Semestre</button>
+					<form action="" method = "post">
+						<button type="submit" name="newSemester" id="newSemester" class = "ownButton">Nuevo Semestre</button>
+						<?php if(isset($_POST['newSemester'])) newSemester(); ?>
+					</form>
 				</div>
 				<div class="col-12 col-md-4 text-center">
 					<button type="button" name="newClass" id="newClass" class = "ownButton">Nueva Clase</button>
@@ -89,15 +100,15 @@
 						<a class="btn-close" href="javascript:;"></a>
 						<div class="content text-center">
 							<form action="addAbsence.php" id = "addAbsenceForm">
-								<input type="text" id = "currSubjectInput" name = "currSubjectInput">
-								<input type="text" id = "currDateInput" name = "currDateInput">
+								<input type="text" id = "currSubjectInput" name = "currSubjectInput" required>
 								<p id = "currSubject">Materia: </p>
 								<p id = "currDate">Fecha: </p>
 								<button type="submit" id = "addAbsence">Agregar</button>
 							</form>
 							<form action="addClass.php" id = "addClassForm">
 								<label for="nombreMateria">Nombre: </label>
-								<input type="text" id = "nombreMateria" name = "nombreMateria">
+								<input type="text" id = "nombreMateria" name = "nombreMateria" required>
+								<input type="hidden" name = "currentPeriod" value="<?php echo $semester;?>">
 								<button type="submit" id = "addClass">Agregar</button>
 							</form>
 						</div>
@@ -115,7 +126,6 @@
 
 			$(document).ready(function() {
 				$('#currDate').html("<strong>Fecha:</strong> " + day + ' - ' + month + ' - ' + year);
-				$('#currDateInput').val(day + ' - ' + month + ' - ' + year);
 
 				$('.btn-close').click(function() {
 					$('.modal-wrapper').toggleClass('open');
