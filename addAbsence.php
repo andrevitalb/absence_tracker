@@ -5,12 +5,11 @@
     date_default_timezone_set('America/Mexico_City');
 
     $subject = $_REQUEST['currSubjectInput'];
-	$date = $_REQUEST['currDateInput'];
 
-	$queryPeriod = "Select materia_parcialActual from materias where materia_nombre = '$subject'";
-	$p = mysqli_query($queryPeriod);
-	$period = mysqli_fetch_array($p);
-	$period = $period[0];
+	$queryPeriod = "Select materia_parcialActual from materias where materia_id = $subject";
+	$resultPeriod = mysqli_query($connect, $queryPeriod);
+	$p = mysqli_fetch_array($resultPeriod);
+	$period = $p[0];
 
 	$queryAbsence = "Update materias set ";
 
@@ -20,21 +19,17 @@
 		case 3: $queryAbsence .= "materia_tercerParcial = materia_tercerParcial + 1"; break;
 	}
 
-	$queryAbsence .= ", materia_totalFaltas = materia_totalFaltas + 1 where materia_nombre = '$subject'";
-	mysqli_query($queryAbsence);
-
-	$querySubject = "Select materia_ID from materias where materia_nombre = '$subject'";
-	$s = mysqli_query($querySubject);
-	$sID = mysqli_fetch_array($s);
-
-	$subjectID = $sID[0];
+	$queryAbsence .= ", materia_totalFaltas = materia_totalFaltas + 1 where materia_id = $subject";
+	$resultAbsence = mysqli_query($connect, $queryAbsence);
 
 	$queryAbsID = "Select MAX(falta_ID) from registrofaltas";
-	$a = mysqli_query($queryAbsID);
+	$a = mysqli_query($connect, $queryAbsID);
 	$aID = mysqli_fetch_array($a);
 
 	$absID = $aID[0] + 1;
 
-	$queryAbsenceReg = "Insert into registrofaltas values ($absID, '$date', $period, $subjectID)";
-	mysqli_query($queryAbsenceReg);
+	$queryAbsenceReg = "Insert into registrofaltas values ($absID, CURDATE(), $period, $subject)";
+	$resultAbsenceReg = mysqli_query($connect, $queryAbsenceReg);
+	
+	echo '<meta http-equiv="refresh" content="0;URL=index.php"/>';	
 ?>
