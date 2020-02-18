@@ -9,15 +9,41 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-143184290-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-143184290-1');
+		</script>
 		<title>Absence Tracker</title>
 
+		<link rel="canonical" href="https://absences.andrevital.com/">
+
 		<meta charset="utf-8">
-	   	<meta name="theme-color" content="#000" />
-		<meta name="title" content="Absence Tracker">
+	   	<meta name="theme-color" content="#000">
+		<meta name="title" content="Absence Tracker | Absence Tracking Tool">
 		<meta name="application-name" content="Absence Tracker">
-		<meta name="description" content="Absence Tracker">
+		<meta name="description" content="Absence tracking tool with dynamic class control & absence calendar display">
 		<meta name="author" content="André Vital">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+		<meta property="og:site_name" content="Absence Tracker">
+		<meta property="og:title" content="Absence Tracker | Absence Tracking Tool">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://absences.andrevital.com/">
+		<meta property="og:image" content="https://andrevital.com/images/absences.jpg">
+		<meta property="og:description" content="Absence tracking tool with dynamic class control & absence calendar display.">
+
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="https://absences.andrevital.com/">
+		<meta property="twitter:title" content="Absence Tracker | Absence Tracking Tool">
+		<meta property="twitter:description" content="Absence tracking tool with dynamic class control & absence calendar display">
+		<meta property="twitter:image" content="https://andrevital.com/images/absences.jpg">
+		<meta name="twitter:image:alt" content="Absence Tracker | Absence Tracking Tool">
+		<meta name="twitter:site" content="@andrevitalb">
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/styles.css">

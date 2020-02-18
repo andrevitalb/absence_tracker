@@ -66,36 +66,29 @@
 		</script>
 		<title>Absence Tracker</title>
 
-		<link rel="canonical" href="https://absences.andrevital.com/"/>
+		<link rel="canonical" href="https://absences.andrevital.com/">
 
 		<meta charset="utf-8">
-	   	<meta name="theme-color" content="#000" />
-		<meta name="title" content="Absence Tracker">
+	   	<meta name="theme-color" content="#000">
+		<meta name="title" content="Absence Tracker | Absence Tracking Tool">
 		<meta name="application-name" content="Absence Tracker">
-		<meta name="description" content="Absence Tracker">
+		<meta name="description" content="Absence tracking tool with dynamic class control & absence calendar display">
 		<meta name="author" content="André Vital">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-
-		<meta name="title" content="André Vital | Desarrollo web, software y fotografía">
-		<meta name="application-name" content="André Vital">
-		<meta name="description" content="Soy André Vital, un desarrollador web y de software, además de contar con una gran experiencia en fotografía.">
-		<meta name="author" content="André Vital">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-		<meta property="og:site_name" content="André Vital">
-		<meta property="og:title" content="André Vital | Desarrollo web, software y fotografía"/>
-		<meta property="og:type" content="website"/>
-		<meta property="og:url" content="https://www.andrevital.com/" />
-		<meta property="og:image" content="https://www.andrevital.com/images/sitess.jpg" />
-		<meta property="og:description" content="Soy André Vital, un desarrollador web y de software, además de contar con una gran experiencia en fotografía." />
+		<meta property="og:site_name" content="Absence Tracker">
+		<meta property="og:title" content="Absence Tracker | Absence Tracking Tool">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://absences.andrevital.com/">
+		<meta property="og:image" content="https://andrevital.com/images/absences.jpg">
+		<meta property="og:description" content="Absence tracking tool with dynamic class control & absence calendar display.">
 
 		<meta property="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content="https://www.andrevital.com/">
-		<meta property="twitter:title" content="André Vital | Desarrollo web, software y fotografía">
-		<meta property="twitter:description" content="Soy André Vital, un desarrollador web y de software, además de contar con una gran experiencia en fotografía.">
-		<meta property="twitter:image" content="https://www.andrevital.com/images/sitess.jpg">
-		<meta name="twitter:image:alt" content="André Vital | Desarrollo web, software y fotografía">
+		<meta property="twitter:url" content="https://absences.andrevital.com/">
+		<meta property="twitter:title" content="Absence Tracker | Absence Tracking Tool">
+		<meta property="twitter:description" content="Absence tracking tool with dynamic class control & absence calendar display">
+		<meta property="twitter:image" content="https://andrevital.com/images/absences.jpg">
+		<meta name="twitter:image:alt" content="Absence Tracker | Absence Tracking Tool">
 		<meta name="twitter:site" content="@andrevitalb">
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -183,41 +176,43 @@
 					<h2>Faltas por fecha</h2>
 				</div>
 				<div class="col-12 col-md-8">
-					<table class="table table-dark table-striped table-hover table-bordered ">
-						<thead>
-							<tr>
-								<th scope="col">Fecha</th>
-								<?php 
-									getClasses();
-									$classes = array();
+					<div class="table-responsive">
+						<table class="table table-dark table-striped table-hover table-bordered ">
+							<thead>
+								<tr>
+									<th scope="col"><p>Fecha</p></th>
+									<?php 
+										getClasses();
+										$classes = array();
 
-									if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
-										echo "<th scope='col'>$rowClasses[1]</th>";
-										array_push($classes, $rowClasses[0]);
+										if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
+											echo "<th scope='col'>$rowClasses[1]</th>";
+											array_push($classes, $rowClasses[0]);
+										}
+									?>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+									while($rowAbsences = mysqli_fetch_array($resultGetAbsences)) {
+										echo "<tr><th scope='row'>$rowAbsences[1]</th>";
+
+										getAbsenceDate($rowAbsences[1]);
+										$dayAbs = array();
+										while($rowDay = mysqli_fetch_array($resultGetDate)) array_push($dayAbs, $rowDay[0]);
+
+										for($i = 0; $i < $countClasses; $i++){
+											echo "<td class='text-center' value='$classes[$i]'>";
+											if(in_array($classes[$i], $dayAbs)) echo "<i class='fal fa-check-square'></i>";
+											echo "</td>";
+										}
+
+										echo "</tr>";
 									}
 								?>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-								while($rowAbsences = mysqli_fetch_array($resultGetAbsences)) {
-									echo "<tr><th scope='row'>$rowAbsences[1]</th>";
-
-									getAbsenceDate($rowAbsences[1]);
-									$dayAbs = array();
-									while($rowDay = mysqli_fetch_array($resultGetDate)) array_push($dayAbs, $rowDay[0]);
-
-									for($i = 0; $i < $countClasses; $i++){
-										echo "<td class='text-center' value='$classes[$i]'>";
-										if(in_array($classes[$i], $dayAbs)) echo "<i class='fal fa-check-square'></i>";
-										echo "</td>";
-									}
-
-									echo "</tr>";
-								}
-							?>
-						</tbody>
-					</table>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
