@@ -10,7 +10,7 @@
 }
 
 ::selection { 
-	background-color: #363636;
+	background-color: #C3C3C3;
 	color: #fff;
 }
 
@@ -36,6 +36,7 @@ body { background-color: #212121; }
 	transition: all .3s ease-in-out;
 	border: 1.5px solid #fff;
 	font-weight: 700;
+	margin: 10px 5px;
 }
 
 .ownButton:hover { transform: translateY(-10px); }
@@ -46,19 +47,147 @@ body { background-color: #212121; }
 	.sm-text-center { text-align: center; }
 }
 
+@keyframes arrow {
+	0% { transform: translateX(0); }
+	25% { transform: translateX(15px); }
+	50% { transform: translateX(0); }
+	75% { transform: translateX(10px); }
+	100% { transform: translateX(0); }
+}
+
+/*---------------------
+	  Login Page
+---------------------*/
+
+#loginHolder {
+	border-radius: 15px;
+	border: 2.5px solid #fff;
+	background-color: #3B3B3B;
+	padding: 1.3rem;
+}
+
+#loginHolder h2 {
+	color: #FEFEFE;
+	margin-bottom: 20px;
+}
+
+#loginHolder input {
+	display: block;
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	border: none;
+	border: 1px solid #fff;
+	border-radius: 8px;
+	background-color: #2B2B2B;
+}
+
+#loginHolder input:active,
+#loginHolder input:focus {
+	outline: none;
+	background-color: #202020;
+}
+
+#loginHolder #loginSubmit {
+	padding: .75rem 2rem;
+	background-color: #2B2B2B;
+	border: none;
+	border: 1.5px solid #fff;
+	border-radius: 5px;
+	font-weight: 600;
+	margin-top: 20px;
+	transition: all .3s ease-in-out;
+}
+
+#loginHolder #loginSubmit i { 
+	margin-left: 10px; 
+	transition: all .3s ease-in-out;
+}
+
+/*#loginHolder #loginSubmit:hover { transform: scale(1.1); }*/
+#loginHolder #loginSubmit:hover i { animation: arrow .75s ease-out 0s; }
+
+.alert { margin: 20px 0; }
+.alert strong, .alert button span { color: #721C24; }
+
 /*---------------------
 		Header
 ---------------------*/
 
-#titleRow {
-	padding: 2rem;
+header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 4rem;
+	background-color: #000;
+	z-index: 200;
 }
 
-#titleRow h1 { font-weight: 700; }
+header .container-fluid { 
+	height: 100%;
+	padding: 0; 
+}
+
+header .row { 
+	height: 100%;
+	margin: 0;
+	align-items: center;
+}
+
+header div { text-align: center; }
+
+header a,
+header a i,
+header span { 
+	color: #fff;
+	transition: all .3s ease-in-out !important;
+}
+
+header a:hover,
+header a:hover i,
+header a:hover span { 
+	color: #777; 
+	text-decoration: none;
+}
+
+header h3 { 
+	font-weight: 600; 
+	margin: 0;
+}
+
+header p { 
+	margin: 0;
+	font-weight: 600;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+@media(max-width: 767px){
+	#navLogOut { order: 2; }
+
+	#navLogOut a {
+		display: block;
+		text-align: right;
+		padding-right: 20px;
+		font-size: 20px;
+	}
+
+	#navLogOut span { display: none; }
+
+	#navTitle { 
+		order: 1;
+		text-align: left;
+		padding-left: 20px;
+	}
+
+	#navUser { display: none; }
+}
 
 /*---------------------
 	Absence Tracker
 ---------------------*/
+
+.page-wrapper { margin-top: 5rem; }
 
 .classContainer {
 	padding: 1.2rem;
@@ -129,6 +258,21 @@ body { background-color: #212121; }
 ---------------------*/
 
 #restartingButtons h2 { margin-bottom: 2rem; }
+
+/*---------------------
+     Absence Table
+---------------------*/
+
+#absenceTable table {
+	border: none;
+	border: 1.5px solid #ccc;
+	border-radius: 15px;
+}
+
+#absenceTable td,
+#absenceTable th {
+	border: 1px solid #ccc;
+}
 
 /*---------------------
 		Modal
