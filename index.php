@@ -1,155 +1,65 @@
-<?php 
-	include ('connections.php');
+<?php session_start();
+    if(isset($_SESSION['usr'])) {
+        header('Location: index_user.php');
+        die();
+    }
 
-	$queryGetSemester = "Select semestre_actual from semestre";
-	$resultGetSemester = mysqli_query($connect, $queryGetSemester);
-	$rGetSemester = mysqli_fetch_array($resultGetSemester);
-	$semester = $rGetSemester[0];
-	
-    mysqli_set_charset ($connect, "utf8");
-    date_default_timezone_set('America/Mexico_City');
-
-	function getClasses(){
-		global $connect, $resultGetClasses, $semester;
-
-		$queryGetClasses = "Select materia_ID, materia_nombre, materia_totalFaltas from materias where materia_activa = $semester";
-		$resultGetClasses = mysqli_query($connect, $queryGetClasses);
-	}
-
-	function newSemester(){
-		global $connect, $semester;
-
-		$queryNewSemester = "Update semestre set semestre_actual = semestre_actual + 1 where semestre_actual = $semester";
-		mysqli_query($connect, $queryNewSemester);
-	}
-
-	getClasses();
+    include('login.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 		<title>Absence Tracker</title>
+
+		<meta charset="utf-8">
+	   	<meta name="theme-color" content="#000" />
+		<meta name="title" content="Absence Tracker">
+		<meta name="application-name" content="Absence Tracker">
+		<meta name="description" content="Absence Tracker">
+		<meta name="author" content="André Vital">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/styles.css">
+		<link rel="stylesheet" href="assets/css/all.min.css">
 
-		<link rel="icon" href="assets/img/favicon.ico">
+		<!-- Favicon -->
+		<link rel="icon" type="image/ico" href="assets/img/favicon.ico">
+
+		<!-- PWA -->
+        <link rel="manifest" href="manifest.json">
 	</head>
 	<body>
 		<div class="container page-wrapper">
-			<div class="row" id = "titleRow">
-				<div class="col-12 text-center">
-					<h1>Absence Tracker</h1>
-				</div>
-			</div>
-			<div class="row justify-content-evenly" id = "absencesRow">
-				<div class="col-12 sm-text-center">
-					<h2><?php echo $semester; ?>° Semestre</h2>
-				</div>
-				<?php 
-					if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
-						echo "<div class='col-5 col-md-3 classContainer text-center' id = '$rowClasses[0]' title = '$rowClasses[1]'><div class='d-table'><div class='classContent'><h4 class = 'classTitle'>$rowClasses[1]</h4><p class='absenceCounter'><span class = 'absences'>$rowClasses[2]</span>faltas</p></div></div></div>";
-					}
-				?>
-			</div>
-
-			<div class="row justify-content-evenly" id="periodsRow">
-				<div class="col-12 sm-text-center">
-					<h2>Parciales</h2>
-				</div>
-				<div class="col-12 col-md-6 text-center">
-					<form action="newPeriod.php" method = "post">
-						<select name="newPeriodClass" id="newPeriodClass">
-							<option selected disabled required>  - Selecciona una opción</option>
-							<?php 
-								getClasses();
-
-								if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
-									echo "<option value='$rowClasses[0]'>$rowClasses[1]</option>";
-								}
-							?>
-							<option value='69'>Todas</option>
-						</select>
-						<button type = "submit" name = "newPeriodButton" id = "newPeriodButton" class = "ownButton">Iniciar nuevo parcial</button>
-					</form>
-				</div>
-			</div>
-
-			<div class="row justify-content-center" id="restartingButtons">
-				<div class="col-12 sm-text-center">
-					<h2>Agregar</h2>
-				</div>
-				<div class="col-12 col-md-4 text-center">
-					<form action="" method = "post">
-						<button type="submit" name="newSemester" id="newSemester" class = "ownButton">Nuevo Semestre</button>
-						<?php if(isset($_POST['newSemester'])) newSemester(); ?>
-					</form>
-				</div>
-				<div class="col-12 col-md-4 text-center">
-					<button type="button" name="newClass" id="newClass" class = "ownButton">Nueva Clase</button>
-				</div>
-			</div>
-		</div>
-		
-		<div class="container-fluid modal-wrapper">
-			<div class="row justify-content-center">
-				<div>
-					<div class="modal col-11 col-md-5">
-						<a class="btn-close" href="javascript:;"></a>
-						<div class="content text-center">
-							<form action="addAbsence.php" id = "addAbsenceForm">
-								<input type="text" id = "currSubjectInput" name = "currSubjectInput" required>
-								<p id = "currSubject">Materia: </p>
-								<p id = "currDate">Fecha: </p>
-								<button type="submit" id = "addAbsence">Agregar</button>
-							</form>
-							<form action="addClass.php" id = "addClassForm">
-								<label for="nombreMateria">Nombre: </label>
-								<input type="text" id = "nombreMateria" name = "nombreMateria" required>
-								<input type="hidden" name = "currentPeriod" value="<?php echo $semester;?>">
-								<button type="submit" id = "addClass">Agregar</button>
-							</form>
-						</div>
+			<div class="row justify-content-center" id = "titleRow">
+				<div class="col-12 col-md-6">
+					<div id="loginHolder">
+						<h2>Login</h2>
+						<form method="post">
+							<input type="text" id="loginUser" name="loginUser" placeholder="Usuario *" required>
+							<input type="password" id="loginPassword" name="loginPassword" placeholder="Contraseña *" required>
+							<div class="text-right">
+								<button type="submit" id="loginSubmit" name="loginSubmit">Login<i class="far fa-arrow-right"></i></button>
+							</div>
+							<div class="col-12">
+								<?php
+				                    if(isset($_POST['loginUser']) && isset($_POST['loginPassword'])){
+				                        if(userEx() != -1){
+				                            $_SESSION['usr'] = $usuario;
+											echo '<meta http-equiv="refresh" content="0; url=index_user.php">';
+				                        }
+				                        else echo $errorMsg;
+				                    }
+				                  ?>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-		<script>
-			var today = new Date();
-			var day = String(today.getDate()).padStart(2, '0');
-			var month = String(today.getMonth() + 1).padStart(2, '0'); 
-			var year = today.getFullYear();
-
-			$(document).ready(function() {
-				$('#currDate').html("<strong>Fecha:</strong> " + day + ' - ' + month + ' - ' + year);
-
-				$('.btn-close').click(function() {
-					$('.modal-wrapper').toggleClass('open');
-					$('.page-wrapper').toggleClass('blur');
-					$('#addAbsenceForm').css('display', 'none');
-					$('#addClassForm').css('display', 'none');
-					return false;
-				});
-
-				$('.classContainer').click(function() {
-					$('#currSubject').html("<strong>Materia:</strong> " + $(this).attr('title'));
-					$('#currSubjectInput').val($(this).attr('id'));
-					$('.modal-wrapper').toggleClass('open');
-					$('.page-wrapper').toggleClass('blur');
-					$('#addAbsenceForm').css('display', 'block');
-					return false;
-				});
-
-				$('#newClass').click(function(){
-					$('.modal-wrapper').toggleClass('open');
-					$('.page-wrapper').toggleClass('blur');
-					$('#addClassForm').css('display', 'block');
-				});
-			});
-		</script>
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	</body>
 </html>
