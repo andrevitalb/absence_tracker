@@ -273,10 +273,10 @@ header p {
 
 .table > thead > tr > th:nth-child(2),
 .table > tbody > tr > td:nth-child(1) {
-    padding-left: 120px !important;
+    padding-left: 125px !important;
 }
 
-.table > thead > tr > th { min-height: 78px; }
+.table > thead > tr > th { min-height: 50px; }
 .table th, .table td { vertical-align: middle !important; }
 
 .table > thead > tr > th > p {
