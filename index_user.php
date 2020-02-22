@@ -29,9 +29,9 @@
 	$countClasses = 0;
 
 	function newSemester(){
-		global $connect, $semester;
+		global $connect, $semester, $usr;
 
-		$queryNewSemester = "Update semestre set semestre_actual = semestre_actual + 1 where semestre_actual = $semester";
+		$queryNewSemester = "Update usuarios set usuarios_semestre = usuarios_semestre + 1 where where usuarios_ID = $usr";
 		mysqli_query($connect, $queryNewSemester);
 	}
 
@@ -133,32 +133,12 @@
 				?>
 			</div>
 
-			<div class="row justify-content-evenly" id="periodsRow">
+			<div class="row justify-content-center" id="actionButtons">
 				<div class="col-12 sm-text-center">
-					<h2>Parciales</h2>
+					<h2>Acciones</h2>
 				</div>
-				<div class="col-12 col-md-6 text-center">
-					<form action="newPeriod.php" method = "post">
-						<select name="newPeriodClass" id="newPeriodClass">
-							<option selected disabled required>  - Selecciona una opción</option>
-							<?php 
-								getClasses();
-
-								if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
-									echo "<option value='$rowClasses[0]'>$rowClasses[1]</option>";
-								}
-							?>
-							<option value='69'>Todas</option>
-						</select>
-						<input type="hidden" name="currentUser" value = "<?php echo $usr; ?>">
-						<button type = "submit" name = "newPeriodButton" id = "newPeriodButton" class = "ownButton">Iniciar nuevo parcial</button>
-					</form>
-				</div>
-			</div>
-
-			<div class="row justify-content-center" id="restartingButtons">
-				<div class="col-12 sm-text-center">
-					<h2>Agregar</h2>
+				<div class="col-12 col-md-4 text-center">
+					<button type="button" name="newClass" id="newClass" class = "ownButton">Nueva Clase</button>
 				</div>
 				<div class="col-12 col-md-4 text-center">
 					<form action="" method = "post">
@@ -166,8 +146,26 @@
 						<?php if(isset($_POST['newSemester'])) newSemester(); ?>
 					</form>
 				</div>
-				<div class="col-12 col-md-4 text-center">
-					<button type="button" name="newClass" id="newClass" class = "ownButton">Nueva Clase</button>
+				<div class="col-12 text-center">
+					<form action="newPeriod.php" method = "post" class = "row">
+						<div class="col-12 col-md-8">
+							<select name="newPeriodClass" id="newPeriodClass">
+								<option selected disabled required>  - Selecciona una opción</option>
+								<?php 
+									getClasses();
+
+									if($resultGetClasses) while($rowClasses = mysqli_fetch_array($resultGetClasses)) {
+										echo "<option value='$rowClasses[0]'>$rowClasses[1]</option>";
+									}
+								?>
+								<option value='69'>Todas</option>
+							</select>
+							<input type="hidden" name="currentUser" value = "<?php echo $usr; ?>">
+						</div>
+						<div class="col-12 col-md-4">
+							<button type = "submit" name = "newPeriodButton" id = "newPeriodButton" class = "ownButton">Iniciar nuevo parcial</button>
+						</div>
+					</form>
 				</div>
 			</div>
 
@@ -229,12 +227,16 @@
 								<p id = "currDate">Fecha: </p>
 								<button type="submit" id = "addAbsence">Agregar</button>
 							</form>
-							<form action="addClass.php" id = "addClassForm">
-								<label for="nombreMateria">Nombre: </label>
-								<input type="text" id = "nombreMateria" name = "nombreMateria" required>
-								<input type="hidden" name = "currentPeriod" value="<?php echo $semester;?>">
-								<input type="hidden" name = "currentUser" value="<?php echo $usr;?>">
-								<button type="submit" id = "addClass">Agregar</button>
+							<form action="addClass.php" id = "addClassForm" class = "row">
+								<div class="col-12">
+									<label for="nombreMateria">Nombre: </label>
+									<input type="text" id = "nombreMateria" name = "nombreMateria" required>
+									<input type="hidden" name = "currentPeriod" value="<?php echo $semester;?>">
+									<input type="hidden" name = "currentUser" value="<?php echo $usr;?>">
+								</div>
+								<div class="col-12">
+									<button type="submit" id = "addClass">Agregar</button>
+								</div>
 							</form>
 						</div>
 					</div>
