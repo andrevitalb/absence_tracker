@@ -51,6 +51,16 @@
 
 		<!-- Favicon -->
 		<link rel="icon" type="image/ico" href="assets/img/favicon.ico">
+        <link rel="shortcut icon" href="assets/img/favicon.png">
+        <link rel="apple-touch-icon" href="assets/img/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="assets/img/apple-touch-icon-114x114.png">
+        <link rel="icon" type="image/png" sizes="36x36" href="assets/img/android-chrome-36x36.png">
+        <link rel="icon" type="image/png" sizes="48x48" href="assets/img/android-chrome-48x48.png">
+        <link rel="icon" type="image/png" sizes="72x72" href="assets/img/android-chrome-72x72.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="assets/img/android-chrome-96x96.png">
+        <link rel="icon" type="image/png" sizes="144x144" href="assets/img/android-chrome-144x144.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png">
 
 		<!-- PWA -->
         <link rel="manifest" href="manifest.json">

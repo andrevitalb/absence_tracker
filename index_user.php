@@ -29,9 +29,9 @@
 	$countClasses = 0;
 
 	function newSemester(){
-		global $connect, $semester, $usr;
+		global $connect, $usr;
 
-		$queryNewSemester = "Update usuarios set usuarios_semestre = usuarios_semestre + 1 where where usuarios_ID = $usr";
+		$queryNewSemester = "Update usuarios set usuarios_semestre = usuarios_semestre + 1 where usuarios_ID = $usr";
 		mysqli_query($connect, $queryNewSemester);
 	}
 
@@ -97,9 +97,19 @@
 
 		<!-- Favicon -->
 		<link rel="icon" type="image/ico" href="assets/img/favicon.ico">
+		<link rel="shortcut icon" href="assets/img/favicon.png">
+		<link rel="apple-touch-icon" href="assets/img/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/img/apple-touch-icon-114x114.png">
+		<link rel="icon" type="image/png" sizes="36x36" href="assets/img/android-chrome-36x36.png">
+		<link rel="icon" type="image/png" sizes="48x48" href="assets/img/android-chrome-48x48.png">
+		<link rel="icon" type="image/png" sizes="72x72" href="assets/img/android-chrome-72x72.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="assets/img/android-chrome-96x96.png">
+		<link rel="icon" type="image/png" sizes="144x144" href="assets/img/android-chrome-144x144.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192x192.png">
 
 		<!-- PWA -->
-        <link rel="manifest" href="manifest.json">
+		<link rel="manifest" href="manifest.json">
 	</head>
 	<body>
 		<header>
@@ -143,7 +153,12 @@
 				<div class="col-12 col-md-4 text-center">
 					<form action="" method = "post">
 						<button type="submit" name="newSemester" id="newSemester" class = "ownButton">Nuevo Semestre</button>
-						<?php if(isset($_POST['newSemester'])) newSemester(); ?>
+						<?php 
+							if(isset($_POST['newSemester'])) {
+								newSemester();
+								echo '<meta http-equiv="refresh" content="0;URL=/" />';
+							} 
+						?>
 					</form>
 				</div>
 				<div class="col-12 text-center">
